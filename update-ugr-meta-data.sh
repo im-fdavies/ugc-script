@@ -1,3 +1,5 @@
+#!/bin/bash
+
 userRecipes=$(cat GF-User-recipes-to-keep.csv)
 
 read -r -e -p "Set page start position " pagePosition
@@ -39,7 +41,7 @@ while [[ ${nextPage} != null ]]; do
   entriesString="${entriesString//vanityRef:}"
 
   while read -r entry; do
-    entryArray=($(echo $entry | tr "," "\n"))
+    entryArray=($(echo "$entry" | tr "," "\n"))
 
     id="${entryArray[0]}"
     userVanityRef="${entryArray[1]}"
