@@ -1,6 +1,7 @@
 #!/bin/bash
 
-userRecipes=$(cat GF-User-recipes-to-keep.csv)
+userRecipes=$(cat GF-User-recipes-to-keep-test.csv)
+environmentUrl=http://localhost:8102/v1/recipes
 
 read -r -e -p "Set page start position " pagePosition
 read -r -e -p "Set limit value " limit
@@ -11,7 +12,7 @@ nextPage="init"
 echo "" > putFailures.csv
 
 patchEntry () {
-  if curl -X PUT "http://localhost:8102/v1/recipes/$1" \
+  if curl -X PUT "$environmentUrl/$1" \
   -H "accept: application/ld+json"  \
   -H "Content-Type: application/ld+json"  \
   -H "Authorization: bearer $bearerToken" \
@@ -26,7 +27,7 @@ patchEntry () {
 }
 
 while [[ ${nextPage} != null ]]; do
-  result=$(curl -X GET "http://localhost:8102/v1/recipes?page=$pagePosition&limit=$limit" \
+  result=$(curl -X GET "$environmentUrl?page=$pagePosition&limit=$limit" \
     -s -H "accept: application/ld+json")
 
   nextPage=$(echo "${result}" | jq '.["hydra:view"]' | jq '."hydra:next"')
