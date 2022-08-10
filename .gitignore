@@ -1,2 +1,5 @@
 
 .DS_Store
+.idea/modules.xml
+.idea/ugc-script.iml
+.idea/vcs.xml
