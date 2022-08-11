@@ -1,7 +1,8 @@
 #!/bin/bash
 
-userRecipes=$(cat GF-User-recipes-to-keep-test.csv)
-environmentUrl=http://localhost:8102/v1/recipes
+userRecipes=$(cat GF-User-recipes-to-keep-staging.csv)
+environmentUrl=https://ugr-api-staging.headless-sandbox.imdserve.com/v1/recipes
+#environmentUrl=http://localhost:8102/v1/recipes
 
 read -r -e -p "Set page start position " pagePosition
 read -r -e -p "Set limit value " limit
@@ -31,6 +32,7 @@ while [[ ${nextPage} != null ]]; do
     -s -H "accept: application/ld+json")
 
   nextPage=$(echo "${result}" | jq '.["hydra:view"]' | jq '."hydra:next"')
+  echo "$nextPage"
 
   entriesString=$(echo "${result}" | jq '.["hydra:member"]' | jq '.[]' | jq -c '{id, userVanityRef, vanityRef}')
   entriesString="${entriesString//\"}"
@@ -47,6 +49,10 @@ while [[ ${nextPage} != null ]]; do
     id="${entryArray[0]}"
     userVanityRef="${entryArray[1]}"
     vanityRef="${entryArray[2]}"
+
+    if [ "${id}" = "" ]; then
+        exit 1
+    fi
 
     match=$(echo "$userRecipes" | grep -E "${userVanityRef}/recipe/${vanityRef}" | xargs)
 
