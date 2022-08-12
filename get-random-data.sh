@@ -1,9 +1,7 @@
 #!/bin/bash
 
-  result=$(curl -X GET "https://ugr-api-staging.headless-sandbox.imdserve.com/v1/recipes?page=13&limit=100" \
+  result=$(curl -X GET "https://ugr-api-staging.headless-sandbox.imdserve.com/v1/recipes?page=9&limit=30" \
     -s -H "accept: application/ld+json")
-
-  echo "" > newEntries.csv
 
   entriesString=$(echo "${result}" | jq '.["hydra:member"]' | jq '.[]' | jq -c '{userVanityRef, vanityRef}')
   entriesString="${entriesString//\"}"

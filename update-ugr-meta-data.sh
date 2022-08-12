@@ -23,7 +23,7 @@ patchEntry () {
     echo "Success"
   else
     echo "Fail"
-    echo "\"$1\"," >> putFailures.csv
+    echo "$1, $2" >> putFailures.csv
   fi
 }
 
