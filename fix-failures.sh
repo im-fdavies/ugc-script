@@ -7,11 +7,11 @@ read -r -e -p "Enter your Bearer token: " bearerToken
 echo "" > putFailures2.csv
 
 patchEntry () {
-  if curl -X PUT "$environmentUrl/$1" \
-  -H "accept: application/ld+json"  \
+  if curl --http1.1 -iX PUT "$environmentUrl/$1" \
+  -H "Accept: application/json"  \
   -H "Content-Type: application/ld+json"  \
-  -H "Authorization: bearer $bearerToken" \
-  -d "{\"meta\": {\"noIndex\":$2,\"noFollow\":$2}}" \
+  -H "Authorization: Bearer $bearerToken" \
+  -d "{\"meta\": {\"noIndex\": $2, \"noFollow\": $2}}" \
   --fail
   then
     echo "Success"
@@ -25,7 +25,7 @@ patchEntry () {
   OLDIFS=$IFS
   IFS=','
   [ ! -f $INPUT ] && { echo "$INPUT file not found"; exit 99; }
-  while read id metaValue
+  while read -r id metaValue
   do
     echo "id : $id"
     echo "metaValue : $metaValue"

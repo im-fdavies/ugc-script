@@ -14,10 +14,10 @@ echo "" > putFailures.csv
 
 patchEntry () {
   if curl -X PUT "$environmentUrl/$1" \
-  -H "accept: application/ld+json"  \
+  -H "Accept: application/json"  \
   -H "Content-Type: application/ld+json"  \
-  -H "Authorization: bearer $bearerToken" \
-  -d "{\"meta\": {\"noIndex\":$2,\"noFollow\":$2}}" \
+  -H "Authorization: Bearer $bearerToken" \
+  -d "{\"meta\": {\"noIndex\": $2, \"noFollow\": $2}}" \
   --fail
   then
     echo "Success"
