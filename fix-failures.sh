@@ -1,6 +1,7 @@
 #!/bin/bash
 
-environmentUrl=https://ugr-api-staging.headless-sandbox.imdserve.com/v1/recipes
+environmentUrl=https://ugr-api-preproduction.headless-preproduction.imdserve.com/v1/recipes
+#environmentUrl=https://ugr-api-staging.headless-sandbox.imdserve.com/v1/recipes
 #environmentUrl=http://localhost:8102/v1/recipes
 
 read -r -e -p "Enter your Bearer token: " bearerToken

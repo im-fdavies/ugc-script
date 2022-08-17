@@ -1,8 +1,21 @@
 #!/bin/bash
 
-userRecipes=$(cat GF-User-recipes-to-keep-staging.csv)
-environmentUrl=https://ugr-api-staging.headless-sandbox.imdserve.com/v1/recipes
+userRecipes=$(cat GF-User-recipes-to-keep-preprod.csv)
+environmentUrl=https://ugr-api-preproduction.headless-preproduction.imdserve.com/v1/recipes
+#environmentUrl=https://ugr-api-staging.headless-sandbox.imdserve.com/v1/recipes
 #environmentUrl=http://localhost:8102/v1/recipes
+
+# Set options
+while getopts 'e:' flag
+do
+  case ${flag} in
+      e) environmentUrl=${OPTARG};
+         ;;
+      *) printf "Usage: [ -e 'environmentUrl' ]";
+         exit 1;
+         ;;
+  esac
+done
 
 read -r -e -p "Set page start position " pagePosition
 read -r -e -p "Set limit value " limit
@@ -25,6 +38,7 @@ patchEntry () {
     echo "Fail"
     echo "$1, $2" >> putFailures.csv
   fi
+  sleep 10s;
 }
 
 while [[ ${nextPage} != null ]]; do

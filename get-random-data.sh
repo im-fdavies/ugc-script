@@ -1,6 +1,6 @@
 #!/bin/bash
 
-  result=$(curl -X GET "https://ugr-api-staging.headless-sandbox.imdserve.com/v1/recipes?page=9&limit=30" \
+  result=$(curl -X GET "https://ugr-api-preproduction.headless-preproduction.imdserve.com/v1/recipes?page=7&limit=30" \
     -s -H "accept: application/ld+json")
 
   entriesString=$(echo "${result}" | jq '.["hydra:member"]' | jq '.[]' | jq -c '{userVanityRef, vanityRef}')
@@ -20,6 +20,6 @@
   savedEntry="https://www.bbcgoodfood.com/user/${userVanityRef}/recipe/${vanityRef}"
 
   echo $savedEntry
-  echo "$savedEntry" >> newEntries.csv
+  echo "$savedEntry" >> newEntriesPreProd.csv
 
 done <<< "${entriesString}"
